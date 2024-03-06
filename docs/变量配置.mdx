@@ -1,0 +1,137 @@
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+
+:::info
+## GoFlow 变量配置模板
+- GoFlow的配置使用环境变量，不使用配置文件。以避免维护配置文件。
+- 采用环境变量，最坏的情况同样需要一个文件(Bash)，但是大多数情况下不需要配置文件。
+:::
+
+<Tabs> 
+
+<TabItem value="Bash"> 
+```bash
+#!/bin/bash
+
+# Set environment variables
+export Redis='{"Username":"","Password":"your_password","Host":"dragonfly.local","Port":"6379","DB":9}
+export Redis_keydb={"Username":"","Password":"your_password","Host":"keydb.local","Port":"6380","DB":0}'
+export Jwt='{"Secret":"Okg2o","Fields":"id,pub"}'
+export Http='{"CORES":"*","Port":8081,"Path":"/","Enable":true,"MaxBufferSize":10485760}'
+export Api='{"ServiceBatchSize":64}'
+export Data='{"AutoAuth":true}'
+
+# Execute the file
+$1
+```
+</TabItem>
+<TabItem value="Docker">
+```yaml
+version: '3'
+services:
+  GoFlowBackend:
+    image:  yangkequn/your-GoFlow-app:latest
+    ports:
+      - "8001:80"  
+    restart: always  # Automatically restart the container if it stops
+    environment:
+      - TZ=Asia/Shanghai
+      - Redis={"Username":"","Password":"your_password","Host":"dragonfly.local","Port":"6379","DB":9,"Name":""}
+      - Redis_keydb={"Username":"","Password":"your_password","Host":"keydb.local","Port":"6380","DB":0,"Name":"keydb"}
+      - Http={"CORES":"*","Port":80,"Path":"/","Enable":true,"MaxBufferSize":10485760}
+      - Jwt={"Secret":"Okg2o","Fields":"id,pub"}
+      - Api={"ServiceBatchSize":64}
+      - Data={"AutoAuth":false}
+    networks:
+      - my-shared-network
+networks:
+  my-shared-network:
+    external: true
+```
+</TabItem>
+
+<TabItem value="VSCode">
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Package",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${fileDirname}",
+            "env": {
+                "Redis": "{\"Username\":\"\",\"Password\":\"your_password\",\"Host\":\"dragonfly.local\",\"Port\":\"6379\",\"DB\":9}
+                "Redis_keydb": "{\"Username\":\"\",\"Password\":\"your_password\",\"Host\":\"keydb.local\",\"Port\":\"6380\",\"DB\":0},
+                "Http": "{\"CORES\":\"*\",\"Port\":8081,\"Path\":\"/\",\"Enable\":true,\"MaxBufferSize\":10485760}",
+                "Jwt": "{\"Secret\":\"Okg2o\",\"Fields\":\"id,pub\"}",
+                "Api": "{\"ServiceBatchSize\":64}",
+                "Data": "{\"AutoAuth\":true}",
+                "LogLevel": "1",
+            },
+        }
+    ]
+}
+```
+</TabItem>
+</Tabs>
+
+
+
+
+:::info
+### Redis配置解释
+:::
+- Redis_xxx:\{Username, Password, Host, Port, DB\} 
+- xxx, 配置名. 有且仅有1个为空的默认值。
+- api,data 默认使用配置为名空值服务器
+- 配置名通过 api,data的.WithRedis(xxx) 使用
+- 多个配置必须使用不同的xxx名称
+
+:::info
+### Http配置解释 （若无需启用可忽略）
+:::
+```
+Http = {"CORES":"*","Port":80,"Path":"/","Enable":true,"MaxBufferSize":10485760}
+```
+- CORES: 跨域资源共享。* 允许所有域名访问
+- Port: GoFlow服务端的端口
+- Path: GoFlow服务端的路径
+- Enable: 是否启用Http服务器
+- MaxBufferSize: 最大缓冲区大小
+
+:::info
+### Jwt配置解释 （若无需启用可忽略）
+:::
+```
+Jwt={"Secret":"Okg2o","Fields":"id,pub"}
+```
+- Secret:  JWT的密钥
+- Fields:  保留字段，可为* 。仅这些字段在API中可用，其他字段会被忽略（提速）
+
+:::info
+### Api配置解释 （若无需启用可忽略）
+:::
+```
+Api={"ServiceBatchSize":64}
+```
+- ServiceBatchSize: 从Redis 一次性读取的API计数
+
+
+
+:::info
+### Data配置解释 （若无需启用可忽略）
+:::
+```
+Data={"AutoAuth":true}
+```
+- AutoAuth: 自动授权,把Key+动作 加到白名单
+
+:::info
+### LogLevel（若无需启用可忽略）
+:::
+- [ZeroLog的日志级别](https://github.com/rs/zerolog#:~:text=zerolog%20allows%20for%20logging%20at%20the%20following%20levels)
