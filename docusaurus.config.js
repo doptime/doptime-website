@@ -4,12 +4,12 @@
 // There are various equivalent ways to declare your Docusaurus config.
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
-import {themes as prismThemes} from 'prism-react-renderer';
+import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: ' GoFlow ',
+  tagline: 'the framework for simple and efficient',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -31,7 +31,7 @@ const config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en','zh-Hans'],
   },
 
   presets: [
@@ -66,11 +66,8 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'My Site',
-        logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
-        },
+        title: 'Home',
+        logo: { alt: 'My Site Logo', src: 'img/logo.svg', },
         items: [
           {
             type: 'docSidebar',
@@ -78,7 +75,7 @@ const config = {
             position: 'left',
             label: 'Tutorial',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          { to: '/blog', label: 'Blog', position: 'left' },
           {
             href: 'https://github.com/facebook/docusaurus',
             label: 'GitHub',
@@ -135,7 +132,13 @@ const config = {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
       },
+      mermaid: {
+        options: { maxTextSize: 8192, },
+        theme: { light: 'default', dark: 'forest' },
+      },
     }),
+  markdown: { mermaid: true, },
+  themes: ['@docusaurus/theme-mermaid'],
 };
 
 export default config;

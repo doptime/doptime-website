@@ -23,9 +23,7 @@ Redis --> YourCode : response data
 ```mermaid
 stateDiagram-v2
 StateClient: Http Client / App
-ReverseProxy: ReverseProxy (optional)
-StateClient --> ReverseProxy
-ReverseProxy --> GoFlow
+StateClient --> GoFlow
 GoFlow: GoFlow
 GoFlow --> Redis :request data
 Redis --> GoFlow : response data

@@ -1,8 +1,5 @@
----
-title: GoFlow 工作原理图
-type:  docs
-weight: 1
----
+
+import Mermaid from '@theme/Mermaid';
 
 :::info
 ## GoFlow 工作原理图，从客户端请求到服务端响应
@@ -15,20 +12,14 @@ weight: 1
   
 - 当客户端发起的请求是API请求时，GoFlow会调用相应的API函数，然后返回给客户端。
   
-```mermaid
+```mermaid 
 stateDiagram-v2
 StateClient: Http Client / App
-ReverseProxy: ReverseProxy (optional)
-StateClient --> ReverseProxy
-ReverseProxy --> GoFlow
-GoFlow: GoFlow
-Api:YourCode/Api
-GoFlow --> Api : api request
-Api --> GoFlow : api result
+GoFlow: GoFlow API (your code)
+StateClient --> GoFlow
 GoFlow --> Redis :request data
 Redis --> GoFlow : response data
 ```
-
 
 
 :::info
