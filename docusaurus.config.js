@@ -140,12 +140,6 @@ const config = {
     }),
   markdown: { mermaid: true, },
   themes: ['@docusaurus/theme-mermaid'],
-  stylesheets: [
-    {
-      href: '/css/tailwind.build.css', // 根据你的文件路径调整
-      type: 'text/css',
-    },
-  ],
 };
 
 export default config;

@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "concurrently \"npm run build:css1\" \"npx docusaurus start\"",
-    "build:css": "npx tailwindcss -i ./src/css/tailwind.css -o ./static/css/tailwind.build.css --watch",
-    "build:css1": "npx postcss src/css/tailwind.css -o static/css/tailwind.build.css --watch",
+    "start": "concurrently \"npm run build:css\" \"npx docusaurus start\"",
+    "build:css": "npx tailwindcss -i ./src/css/tailwind.css -o ./static/css/tailwind.build.css",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",

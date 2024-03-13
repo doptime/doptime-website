@@ -16,11 +16,11 @@ export default function Test() {
         })
     }, [])
     return (
-        <div class="flex-col ml-4">
-            <div class="flex-col space-x-4 text-gray-400 ">
-                <h2>Test current api server (you can modify it to test your api server):</h2>
+        <div class="flex-col ml-10">
+            <div class="flex-col space-x-6 text-gray-400 ">
+                <div class="text-lg">Test current api server (you can modify it to test your api server):</div>
                 {/* modifiable urlBase:  */}
-                <div class="text-2xl  text-red-600 mb-14">
+                <div class="text-2xl  text-yellow-600 mb-7">
                     <input type="text" value={urlBase} onChange={(e) => setUrlbase(e.target.value)} />
                 </div>
             </div>
