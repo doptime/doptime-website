@@ -8,7 +8,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: ' GoFlow ',
+  title: ' DevOpsJoy ',
   tagline: 'the framework for simple and efficient',
   favicon: 'img/favicon.ico',
 
@@ -31,7 +31,7 @@ const config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en','zh-Hans'],
+    locales: ['en', 'zh-Hans'],
   },
 
   presets: [
@@ -76,6 +76,7 @@ const config = {
             label: 'Tutorial',
           },
           { to: '/blog', label: 'Blog', position: 'left' },
+          { to: '/Test', label: 'Test', position: 'left' },
           {
             href: 'https://github.com/facebook/docusaurus',
             label: 'GitHub',
@@ -139,6 +140,12 @@ const config = {
     }),
   markdown: { mermaid: true, },
   themes: ['@docusaurus/theme-mermaid'],
+  stylesheets: [
+    {
+      href: '/css/tailwind.build.css', // 根据你的文件路径调整
+      type: 'text/css',
+    },
+  ],
 };
 
 export default config;
