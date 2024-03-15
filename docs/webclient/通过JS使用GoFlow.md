@@ -1,11 +1,11 @@
 ---
-title: 通过JS使用GoFlow
+title: 通过JS使用doptime
 type:  docs
 weight: 2
 ---
 
 :::info
-### 通过JS使用GoFlow示例
+### 通过JS使用doptime示例
 :::
 所有[可用的方法定定义](https://github.com/yangkequn/saavuu/blob/master/3rd_lang/Api.tsx)
 1. **加载用户头像**
@@ -14,7 +14,7 @@ weight: 2
 package main
 
 import (
- "github.com/yangkequn/GoFlow/api"
+ "github.com/yangkequn/doptime/api"
 )
 
 type Demo struct {
@@ -26,12 +26,12 @@ _demo, _ := keyDemo.Get("KQYang")
 ```
 
 
-2. **申明和使用GoFlow的函数**
+2. **申明和使用doptime的函数**
 ``` go
 package main
 
 import (
-	"github.com/yangkequn/GoFlow/api"
+	"github.com/yangkequn/doptime/api"
 )
 
 type InDemo struct {

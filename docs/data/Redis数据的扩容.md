@@ -18,7 +18,7 @@ package main
 
 import (
 	"github.com/samber/lo"
-	"github.com/yangkequn/GoFlow/data"
+	"github.com/yangkequn/doptime/data"
 )
 
 type TreeData struct {
