@@ -1,5 +1,5 @@
 ---
-title: 快速入门
+title: 开始上手
 type:  docs
 sidebar_position: 2
 ---
@@ -14,7 +14,7 @@ import Test from '../../src/pages/test';
 package main
 
 import (
- "github.com/yangkequn/doptime/api"
+ "github.com/doptime/doptime/api"
 )
 
 type Demo struct {
@@ -35,11 +35,11 @@ _demo, _ := keyDemo.Get("KQYang")
 package main
 
 import (
-	"github.com/yangkequn/doptime/api"
+	"github.com/doptime/doptime/api"
 )
 
 type InDemo struct {
-	Id   string `msgpack:"alias:JWT_id"`
+	Id   string `msgpack:"alias:JwtId" validate:"required"`
 }
 
 var keyDemo = data.NewStruct[string,*Demo]()

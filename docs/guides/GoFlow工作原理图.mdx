@@ -24,8 +24,17 @@ Redis --> doptime : response data
 
 :::info
 ### 注：doptime和YourCode/Api 是在同一个进程中
+:::
+
 - 作为单体模式使用时。有一个doptime进程
 - 作为微服务模式使用时：
 - - 有多个doptime进程,这些doptime进程都可以作为API和数据服务入口
 - - 多个doptime进程中API可以彼此调用，通过调用这个默认Redis转发。 
+
+
+:::info
+### 微服务的交换机模型VS点对点模型
 :::
+- doptime作为微服务时，可以使用交换机模型。我们把redis 数据库看做是一个数据交换机，doptime进程之间通过redis交换数据。
+- 这和传统的微服务不同，传统的微服务是点对点模型，每个微服务之间直接通过对方的IP、port 直接调用。
+- 交换机模型大大简化了拓扑结构。插入和删除一个服务，不影响其他服务。

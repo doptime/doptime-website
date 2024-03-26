@@ -2,12 +2,14 @@
 module.exports = {
   content: [
     './src/**/*.{js,jsx,ts,tsx,mdx,html}',
+    './docs/**/*.{js,jsx,ts,tsx,mdx,html}',
   ],
   theme: {
     extend: {
 
     },
   },
-  plugins: [],
+  plugins: [
+  ],
 }
 

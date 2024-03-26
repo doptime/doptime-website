@@ -7,14 +7,14 @@ weight: 2
 :::info
 ### 通过JS使用doptime示例
 :::
-所有[可用的方法定定义](https://github.com/yangkequn/saavuu/blob/master/3rd_lang/Api.tsx)
+所有[可用的方法定定义](https://github.com/doptime/saavuu/blob/master/3rd_lang/Api.tsx)
 1. **加载用户头像**
    
 ``` go
 package main
 
 import (
- "github.com/yangkequn/doptime/api"
+ "github.com/doptime/doptime/api"
 )
 
 type Demo struct {
@@ -31,11 +31,11 @@ _demo, _ := keyDemo.Get("KQYang")
 package main
 
 import (
-	"github.com/yangkequn/doptime/api"
+	"github.com/doptime/doptime/api"
 )
 
 type InDemo struct {
-	Id   string `msgpack:"alias:JWT_id"`
+	Id   string `msgpack:"alias:JwtId" validate:"required"`
 }
 
 var keyDemo = data.NewStruct[string,*Demo]()

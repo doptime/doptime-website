@@ -1,0 +1,68 @@
+---
+title: 后端 - 配置 - 通过环境变量
+type:  docs
+sidebar_position: 11
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+
+:::tip 
+## doptime 变量配置模板
+:::
+
+<Tabs> 
+<TabItem value="docker-compose" label="docker-compose">
+```yaml title="docker-compose.yml"
+version: '3'
+services:
+  doptimeBackend:
+    image:  yangkequn/your-doptime-app:latest
+    ports:
+      - "8001:80"  
+    restart: always  # Automatically restart the container if it stops
+    environment:
+      #- CONFIG_URL=https://raw.githubusercontent.com/your-repo/your-config/main/config.json
+      - REDIS_default={"Username":"","Password":"your_password","Host":"dragonfly.local","Port":"6379","DB":9}
+      - REDIS_xxx={"Username":"","Password":"your_password","Host":"keydb.local","Port":"6380","DB":0}
+      - HTTP={"CORES":"*","Port":80,"Path":"/","JwtSecret":"Okg2o","MaxBufferSize":10485760,"AutoAuth":false}
+      - SETTINGS={"LOGLEVEL":1} 
+    networks:
+      - my-shared-network
+networks:
+  my-shared-network:
+    external: true
+```
+</TabItem>
+
+
+<TabItem value="VSCode">
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Package",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${fileDirname}",
+            "env": {
+                "REDIS_default": "{\"Username\":\"\",\"Password\":\"your_password\",\"Host\":\"dragonfly.local\",\"Port\":\"6379\",\"DB\":9}
+                "REDIS_xxx": "{\"Username\":\"\",\"Password\":\"your_password\",\"Host\":\"keydb.local\",\"Port\":\"6380\",\"DB\":0},
+                "HTTP": "{\"CORES\":\"*\",\"Port\":8081,\"Path\":\"/\",\"JwtSecret\":\"Okg2o\",\"MaxBufferSize\":10485760,\"AutoAuth\":true}",
+                "SETTINGS": "{\"LOGLEVEL\":1}",
+            },
+        }
+    ]
+}
+```
+</TabItem>
+</Tabs>
+
+## 说明
+- 所有变量的含义约定和配置文件一致。并做了一些调整。
+- 调整1: HTTP,JWT,SETTINGS,这里的变量名与配置文件中的字段名相比，从首字母大写变成了单词大写。
+- 调整2: REDIS_xxx,这里的xxx是配置名Name。有且仅有1个为default的默认值。不必在json中再次定义Name。

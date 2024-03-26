@@ -19,9 +19,10 @@
     "@docusaurus/preset-classic": "3.1.1",
     "@docusaurus/theme-mermaid": "^3.1.1",
     "@mdx-js/react": "^3.0.0",
+    "@tailwindcss/typography": "^0.5.10",
     "clsx": "^2.0.0",
     "concurrently": "^8.2.2",
-    "doptime-client": "^0.3.2",
+    "doptime-client": "^0.3.5",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
