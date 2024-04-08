@@ -14,7 +14,7 @@ const FeatureList = [
   },
   {
     title: 'Focus on What Matters',
-    Svg: require('@site/static/img/powerfull.svg').default,
+    Svg: require('@site/static/img/svgviewer-focus.svg').default,
     description: (
       <>
         Doptime lets you focus on your logic only.
@@ -22,11 +22,11 @@ const FeatureList = [
     ),
   },
   {
-    title: 'Out source your work',
-    Svg: require('@site/static/img/coming-soon.svg').default,
+    title: 'Coming Soon: RPC library',
+    Svg: require('@site/static/img/svgviewer-come.svg').default,
     description: (
       <>
-        <a href="/docs/introduction"> Out source 3rd party related work to the community.</a>
+        <a href="/docs/introduction"> This that can free from develop lots of APIs .</a>
       </>
     ),
   },
