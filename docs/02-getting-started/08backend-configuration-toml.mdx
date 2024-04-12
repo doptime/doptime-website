@@ -1,13 +1,14 @@
 ---
-title: 后端 - 配置 - 通过config.toml
+slug: config.toml
+title: 后端 - 配置 - config.toml
 type:  docs
 sidebar_position: 10
 ---
 
 :::tip 配置doptime后端
 ## 通过配置文件配置
-编译后的后端程序会在相同的路径下, 寻找名为config.toml的配置文件并加载。  
 :::
+编译后的后端程序会在相同的路径下, 寻找名为config.toml的配置文件并加载。  
 
 ### 这是一个典型的配置文件。
 你可以通过修改这个文件来配置你的后端。
@@ -23,17 +24,17 @@ ConfigUrl = ""
   Port = 6379
   DB = 0
 
-[Jwt]
-  Secret = ""
-  Fields = "*"
-
 [Http]
   CORES = "*"
   Port = 80
   Path = "/"
-  Enable = false
   MaxBufferSize = 10485760
   AutoAuth = false
+
+[[HttpRPC]]
+  Name = "doptime"
+  UrlBase = "https://api.doptime.com"
+  Jwt = ""
 
 [Settings]
   LogLevel = 1
@@ -68,7 +69,7 @@ ConfigUrl = ""
 - Username, Password, Host, Port, DB: Redis的连接配置
 
 在api 中配置名通过 api.Api(yourApiFunc,api.Option.WithApiRds(Name)) 使用  
-在data 中配置名通过 data.New[k_type,v_type]\(data.Option.WithDataSource(Name)) 使用  
+在data 中配置名通过 data.New[k_type,v_type]\(data.Option.WithRds(Name)) 使用  
 如果不指定redis datasource，则使用默认redis,配置名为default的redis服务器。  
 多个配置必须使用不同的Name，否则会被覆盖
 
@@ -80,7 +81,6 @@ ConfigUrl = ""
   CORES = "*"
   Port = 80
   Path = "/"
-  Enable = false
   MaxBufferSize = 10485760
   AutoAuth = false
 ```
@@ -89,22 +89,24 @@ ConfigUrl = ""
 - Path: doptime服务端的路径
 - MaxBufferSize: 最大缓冲区大小
 - AutoAuth:   **[参看: http操作自动授权  ](/docs/guides/data/数据访问的安全性)**  
-&nbsp;&nbsp;&nbsp;&nbsp;若为true，则所有客户端的操作都会被添加到授权白名单，以实现权限的自动化配置。  
-&nbsp;&nbsp;&nbsp;&nbsp;若为false，则使用已有的权限配置。同时会拒绝所有未授权的操作。  
-&nbsp;&nbsp;&nbsp;&nbsp;你应该确保在安全的开发环境中使用，而不是生产环境。  
-&nbsp;&nbsp;&nbsp;&nbsp;你可以在default数据库中 _permissions主键下修改权限。
+若为true，则所有客户端的操作都会被添加到授权白名单，以实现权限的自动化配置。  
+若为false，则使用已有的权限配置。同时会拒绝所有未授权的操作。  
+你应该确保在安全的开发环境中使用，而不是生产环境。  
+你可以在default数据库中 _permissions主键下修改权限。
 
 
-:::info Jwt配置
-### Jwt 参数
+:::info 定义 一个或多个 HttpRPC
+### HttpRPC 参数
 :::
 ```text  
-[Jwt]
-  Secret = ""
-  Fields = "*"
+[[HttpRPC]]
+  Name = "doptime"
+  UrlBase = "https://api.doptime.com"
+  Jwt = ""
 ```
-- Secret:  JWT的密钥
-- Fields:  保留字段，可为* 。仅这些字段在API中可用，其他字段会被忽略（提速）
+- Name:  HttpRPC 名称
+- UrlBase:  HttpRPC基址。用来生成完整的URL
+- Jwt:  JWT令牌。用来验证请求的合法性。
 
 
 

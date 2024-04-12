@@ -3,51 +3,106 @@ title: 2.2 用doptime RPC加速开发api
 type:  docs
 sidebar_position: 20
 ---
+## dopTime RPC 设计原则
+- 用极小，0.1M，的代码体积，覆盖大部分的后端功能。
+- 成本计价原则。努力使得RPC的成本低于本机运行成本。
+- 模块进化原则。dopTime 反复迭代优化一千种RPC来满足大部分RPC需求。
+- 欢迎加入社群，提交接口需求。
+<!-- - 零配置，透明的API交易。dopTime 像股市一样，把API调用价格自动成交在市场供需平衡点。 -->
+<!-- RPC的逻辑代码，涉及不同的语言，不同的依赖，编译配置等。把它们放到一个项目实际上是不可行的。 -->
 
-### 1. 为什么传统上需要开发非CURD API。
-  我们现在把一个API的功能分解为三个部分。
-1. 提供上下文数据。这包括来自客户端的数据，和服务端数据库中的数据。
-2. 完成API的逻辑操作，并得到结果。
-3. 存储结果到数据库。
-4. 返回全部或者部分数据给客户端。
 
-### dopTime 提供3个中间件函数，用来加速非CURD API的开发
+## 第三方RPC的功能拆解
+1. 根据上下文数据，预备RPC入参。这包括来自web client + server db中的数据。
+2. 调用RPC，完成API的逻辑操作，并得到结果。
+3. 存储相关结果到数据库。
+4. 返回数据给客户端。
 
-1. 使用 MixinParamEnhancer ，完成了1.1 功能，即提供上下文数据，确保RPC的入参是准确的。（比如从数据库中读取数据等）。
+## 实现功能拆解的3个Hook
+
+### HookParamEnhancer
+1. 使用 HookParamEnhancer ，完成 .1 功能 来补足缺失的入参（比如从数据库中读取数据等）。
 ```go
-   //func MixinParamEnhancer[i any, o any](  rpc func(InParameter i) (ret o, err error), paramEnhancer func(paramMap map[string]interface{}, param i) (out i, err error)     )  
-   api.MixinParamEnhancer(doptimerpc.text2mp3, paramEnhancer)
-```
-   其中 rpc 是第三方  rpc 库，（如doptime）中的函数，直接使用名称就可以。
-   paramEnhancer 是一个修正 param i的函数。因为RPC中的部分参数可能需要查询数据库或是计算才能得到。可以在此补足或修改 param i 并返回，以便得到可靠的RPC。
-2. 使用MixinResultFinalizer， 完成 1.3，也就是 存储结果到数据库。    
-```go 
-//func MixinResultSaver[i any, o any](f func(InParameter i) (ret o, err error), resultSaver func(param i, ret o, paramMap map[string]interface{}) (err error))
-resultFinalizer:= func(param i, ret o, paramMap map[string]interface{}) ( err error) {
-    // 你可以在这里对返回值进行修正，或者存储到数据库中。
-    keyText2mp3.HSet(i.TextHash,i.Data)
-    return ret, nil
+func (ctx *Context[i, o]) HookParamEnhancer(
+	paramEnhancer func(param i) (out i, err error),
+) *Context[i, o] {
+	ctx.ParamEnhancer = paramEnhancer
+	return ctx
 }
-api.MixinResultSaver(doptimerpc.text2mp3, resultFinalizer)
 ```
-3. 使用 MixinResponseModifier ，完成 1.4，也就是修改给客户端的响应数据。
-   需要说明的是 修改给客户端的响应数据 通常是不需要的，因为rpc 中通常已经考虑了 json tag ,来避免返回数据中存在敏感数据的泄露。
+   paramEnhancer 是一个修正 param i的函数。入参的param已经初步准备好了，但是可能不完整。  
+   因为部分field可能需要查询数据库或是计算才能得到。这个hook用以修正
+### HookResultSaver
+2. 使用HookResultFinalizer， 完成 .3(存储RPC结果到数据库)。    
+```go 
+func (ctx *Context[i, o]) HookResultSaver(
+	resultSaver func(param i, ret o) (err error),
+) *Context[i, o] {
+	ctx.ResultSaver = resultSaver
+	return ctx
+}
+```
+   resultSaver 是一个保存RPC结果到数据库的函数。 你可以在这里保存RPC的结果到数据库中。 通常是redis数据库。  
+### HookResponseModifier
+3. 使用 HookResponseModifier ，完成 .4 (修改给web client的响应数据).
 
 ```go 
-//func MixinResponseModifier[i any, o any](f func(InParameter i) (ret o, err error), ResponseModifier func(param i, ret o, paramMap map[string]interface{}) (valueToWebclient interface{}, err error))
-ResponseModifier:= func(param i, ret o, paramMap map[string]interface{}) ( valueToWebclient interface{}, err error) {
-    // modify the response data here. if you need.
-    return ret, nil
+// HookResponseModifier is a hook function to modify the response  value to the web client.
+func (ctx *Context[i, o]) HookResponseModifier(
+	ResponseModifier func(param i, ret o) (valueToWebclient interface{}, err error),
+) *Context[i, o] {
+	ctx.ResponseModifier = ResponseModifier
+	return ctx
 }
-api.MixinResponseModifier(doptimerpc.text2mp3, resultFinalizer)
 ```
-### doptime rpc 的设计原则。
-doptime rpc 把rpc的逻辑实现和接口定义区别开来。这样理论上 只需要一个体积很小的接口定义库，调用百万种的函数功能。
-RPC的逻辑代码，涉及不同的语言，不同的依赖，编译配置等。把它们放到一个项目实际上是不可行的。
+   需要说明的是 修改给客户端的响应数据 通常是不需要的，因为rpc 中通常已经考虑了 json tag ,来避免返回数据中存在敏感数据的泄露。如果你需要返回空值等，可以在这里修改。
+
+### 重要须知
+doptime lib 中的 入参，总存在 Other map[string]interface{} 的字段，用来存放web-client的其它请求参数。  
+那些并没有在入参中出现的参数，如果你又需要使用，可以从这个map中取出来。  
+如果多个hook函数之间要通信，可以通过 Other 字段 来传递。
+
+## 调用第三方RPC函数示例
+```go   title="main.go"
+package main
+
+import (
+	"github.com/doptime/doptime/api"
+	. "github.com/doptime/doptime/lib"
+	"github.com/doptime/doptime/data"
+)
+
+
+//use default: api.Option.ApiSourceHttp("doptime")
+keyText2Audio:=data.New("keyText2Audio")
+var Text2Audio = api.RpcOverHttp[*Text2AudioIn, *Text2AudioOut]().
+HookParamEnhancer(func( req *Text2AudioIn) (r *InDemo, e error) {
+	req.Other["TraceId"] = "123456"
+	//load data from redis to complete req if you need
+	return req, nil
+}).HookResultSaver(func ( req *InDemo,rlt *Text2AudioOut ) (e error) {
+	keyText2Audio.HSet(xxhash.Sum64String(req.Text),rlt)
+	//save result here if you need 	
+	return nil
+}).HookResponseModifier(func (req *InDemo,rlt *Text2AudioOut ) (ret interface{},e error) {
+	//furthur modify the response value to the client here
+	return rlt, nil
+}).Func
+
+
+```
 
 
 ### 如何查看有哪些第三方函数可用。
-通常，你引用 doptime-rpc 包, 在vscode 中输入 rpc+你的关键，就可以看到所有的rpc函数了。
+1. 通常，你引用 doptime/lib 包, 在vscode 中输入 你的关键, 来查看可以创建的RPC函数。
+```go 
+package main
 
+import (
+	. "github.com/doptime/doptime/lib"
+)
+api.RpcOverHttp[*yourKeywordsHere...
+```
+
+2. 参加社群。提交你的请求。
  
-

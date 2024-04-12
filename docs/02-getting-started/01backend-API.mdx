@@ -1,0 +1,62 @@
+---
+slug: API
+title: 后端 - 使用API
+type:  docs
+sidebar_position: 1
+---
+
+
+:::tip 申明api
+## **通过api.Api定义doptime函数**
+::: 
+ api.New(...) 要求传入一个参数，这个参数是一个结构体指针；出参是任意的数据类型。
+```go   title="main.go"
+package main
+
+import (
+	"github.com/doptime/doptime/api"
+)
+
+type InDemo struct {
+	Id   string `mapstructure:"JwtId"`
+}
+
+var keyDemo = data.New[string,*Demo]()
+//define api with input/output data structure
+ApiDemo:=api.Api(func(req *InDemo) (ret string, err error) {
+    keyInDemo.HSET(req.Id, req)
+    return `{data:"ok"}`, nil
+}).Func
+
+```
+### api命名规则
+默认的api名称是 "api:" + Struct类型名称。且类型名首字母会改写为小写.  
+[**其中，类型名称会移除常见前缀 "api:", "input", "in", "req", "arg", "param", "src", "data", "result", "out", "output", "ret", "response", "resp", "reply", "ack", "reply"**](https://github.com/doptime/doptime/blob/master/specification/serviceNames.go#L55)  
+[**其中，类型名称会移除常见后缀 "input", "in", "req", "arg", "param", "src", "data", "result", "out", "output", "ret", "response", "resp", "reply", "ack", "reply" 后缀**](https://github.com/doptime/doptime/blob/master/specification/serviceNames.go#L55)。  
+	//remove  prefix. "api:" is the case of encoded service name. other wise for the case of parameter type name
+举例来说，InDemo的默认api名称是 "api:demo"。
+### api 的调用
+你可以采用这些方式调用定义的api：
+> 1. 作为普通的函数调用
+> 2. 通过http调用
+> 3. 通过RCP调用
+
+### 查看 rpc调用 的 参数
+你可以在redis 的主键api:demo中查到到rpc的调用传参。注意，如果是本地参数调用，不会有传输参数。
+
+&nbsp;
+:::tip api.Api的可选参数
+## **通过api.Api的可选参数定义api**   
+::: 
+### api.Option.WithApiRds(...)    
+比如在微服务的拆分隔离中，通过配置选项，你可以指定其它的redis datasource 作为参数交换网关
+```go   title="main.go"
+...
+//define api with input/output data structure
+ApiDemo:=api.Api(func(req *InDemo) (ret string, err error) {
+    keyInDemo.HSET(req.Id, req)
+    return `{data:"ok"}`, nil
+},api.Option.WithApiRds("ServiceQ")).Func
+```
+上面的例子中。api.Option.WithApiRds("ServiceQ") 是可选参数,用来指定redis服务器中转函数调用。    
+

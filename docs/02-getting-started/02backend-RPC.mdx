@@ -1,4 +1,5 @@
 ---
+slug: RPC
 title: 后端 - 使用RPC
 type:  docs
 sidebar_position: 2
@@ -8,7 +9,8 @@ sidebar_position: 2
 :::tip 申明api
 ## **通过api.Api定义doptime函数**
 ::: 
- 
+ api.Api定义后的函数可以通过api.Rpc定义RPC函数使用。  
+ 如果你不需要用到多体模式。则不需要使用RPC 功能。  
 ```go   title="main.go"
 package main
 
@@ -25,6 +27,4 @@ var DemoRpc = api.Rpc[*InDemo, string]()
 result, err := DemoRpc.Call(&InDemo{Id:"123"})
 
 ```
-> RPC 的使用方式同api  
-> RPC 的可选参数与api的可选参数相同  
-> 和api 一样，RPC的入参和出参也通过mapstructure定义
+- RPC 的可选参数与api的可选参数相同  

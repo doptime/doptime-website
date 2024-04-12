@@ -11,7 +11,7 @@ const Test = () => {
     const [err, setErr] = useState("no error")
     configure(urlBase,"",(err) => {
         //show error & body message
-        setErr(err.toString() + " \n " + JSON.stringify(err.response.data))
+        setErr(err.toString() + " \n " + JSON.stringify(err.response?.data))
     })
     useEffect(() => {
         setErr("no error")

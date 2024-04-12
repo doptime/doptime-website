@@ -1,4 +1,5 @@
 ---
+slug: functionList
 title: 前端 - 函数列表
 type:  docs
 sidebar_position: 21
@@ -25,7 +26,7 @@ declare class OptionClass {
     rspTypeText: () => OptionClass;
     rspTypeStream: () => OptionClass;
     rspTypeAny: (anyType: string) => OptionClass;
-    withDataSource: (dataSourceName: string) => OptionClass;
+    WithRds: (dataSourceName: string) => OptionClass;
     withUrlbase: (urlbase: string) => OptionClass;
     ThrowSecondaryPromiseError: (allowed: boolean) => OptionClass;
     paramString: () => string;
