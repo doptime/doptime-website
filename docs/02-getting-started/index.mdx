@@ -4,7 +4,6 @@ type:  docs
 sidebar_position: 2
 ---
 
-import Test from '../../src/pages/test';
 
 ### 通过以下两个方式，doptime框架则自动启用
 
@@ -26,10 +25,9 @@ _demo, _ := keyDemo.Get("KQYang")
 ```
 
 
-2. **申明和使用doptime的函数**
-        通过api.Api定义doptime函数
+2. **申明和使用doptime的函数**  
+        通过api.Api定义doptime函数  
 
-    import Test from '../../src/pages/test';
 
 ```go   title="main.go"
 package main
@@ -55,4 +53,3 @@ ApiDemo=api.Api(func(req *InDemo) (ret string, err error) {
 
 ```
     
-<Test/>

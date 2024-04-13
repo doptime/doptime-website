@@ -2,8 +2,9 @@
 title: 后端框架： API + RPC + 数据
 type:  docs
 sidebar_position: 1
+displayed_sidebar: zh
 ---
-
+ 
 import Mermaid from '@theme/Mermaid';
 
 :::tip 从http 到 doptime 到 redis
@@ -24,7 +25,7 @@ import Mermaid from '@theme/Mermaid';
 - 上面创建的api函数作为RPC服务端用，不必另外定义
 - 通过在api.Rpc\[inType,outType\](...)定义Rpc客户端函数，它可以调用RPC服务端。
 - 这种RPC调用通过Redis转发参数
-- 如果你希望使用Http直连而非redis转发，来提高效率，或是不希望暴露redis服务器，可以直接调用api.RpcOverHttp[in,out](Option.WithApiHttp(...))。
+- 如果你希望使用Http直连而非redis转发，来提高效率，或是不希望暴露redis服务器，可以直接调用api.RpcOverHttp\[in,out\](Option.WithSourceHttp(...))。
 
 ### 3. 作为数据库框架
 - doptime 仅使用Redis 类型的数据库，不使用其它数据库

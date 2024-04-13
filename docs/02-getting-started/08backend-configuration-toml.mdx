@@ -68,7 +68,7 @@ ConfigUrl = ""
 - Name: Redis配置名. 有且仅有1个为default的默认值。
 - Username, Password, Host, Port, DB: Redis的连接配置
 
-在api 中配置名通过 api.Api(yourApiFunc,api.Option.WithApiRds(Name)) 使用  
+在api 中配置名通过 api.Api(yourApiFunc,api.Option.WithSourceRds(Name)) 使用  
 在data 中配置名通过 data.New[k_type,v_type]\(data.Option.WithRds(Name)) 使用  
 如果不指定redis datasource，则使用默认redis,配置名为default的redis服务器。  
 多个配置必须使用不同的Name，否则会被覆盖

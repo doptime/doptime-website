@@ -48,7 +48,7 @@ ApiDemo:=api.Api(func(req *InDemo) (ret string, err error) {
 :::tip api.Api的可选参数
 ## **通过api.Api的可选参数定义api**   
 ::: 
-### api.Option.WithApiRds(...)    
+### api.Option.WithSourceRds(...)    
 比如在微服务的拆分隔离中，通过配置选项，你可以指定其它的redis datasource 作为参数交换网关
 ```go   title="main.go"
 ...
@@ -56,7 +56,7 @@ ApiDemo:=api.Api(func(req *InDemo) (ret string, err error) {
 ApiDemo:=api.Api(func(req *InDemo) (ret string, err error) {
     keyInDemo.HSET(req.Id, req)
     return `{data:"ok"}`, nil
-},api.Option.WithApiRds("ServiceQ")).Func
+},api.Option.WithSourceRds("ServiceQ")).Func
 ```
-上面的例子中。api.Option.WithApiRds("ServiceQ") 是可选参数,用来指定redis服务器中转函数调用。    
+上面的例子中。api.Option.WithSourceRds("ServiceQ") 是可选参数,用来指定redis服务器中转函数调用。    
 
