@@ -1,4 +1,5 @@
 ---
+slug: doptime-community
 title: doptime 社区支持
 type:  docs
 sidebar_position: 2

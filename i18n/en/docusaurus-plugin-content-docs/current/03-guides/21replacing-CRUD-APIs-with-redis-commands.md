@@ -1,11 +1,12 @@
 ---
+slug: replacing-CRUD-APIs-with-redis-commands
 title: 2.1 用Redis命令替代CURD API
 type:  docs
 sidebar_position: 20
 ---
-### dopTime 为什么可以让CURD操作消失。
+### doptime 为什么可以让CURD操作消失。
 - CURD API的作用。1.实现上下文绑定，2.实现权限控制. 3.实现数据操作。
-- 现在我们已经知道. dopTime 已经实现了2、3，也就是:  
+- 现在我们已经知道. doptime 已经实现了2、3，也就是:  
 dopTime已经通过黑白名单`command::key::on/off` 解决了权限问题。  
 redis api也可以直接操作数据。  
 - 所以，最后我们只需要解决上下文绑定问题，就可以让CURD操作消失。

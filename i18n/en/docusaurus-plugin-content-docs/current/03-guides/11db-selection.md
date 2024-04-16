@@ -1,21 +1,24 @@
 ---
 slug: db-selection
-title: 数据库选型 - Redis
+title: 1.1 数据库选型 - Redis
 type:  docs
 sidebar_position: 1
 ---
-## 为什么doptime 选择Redis做数据库
 
+:::info
+## 数据库的选型，为什么是Redis
+:::
 ### 为什么redis 是好选择
- - Redis 能最有效满足理想后端框架的需求。它使用极简，功能丰富，性能强大. 
- - 有keydb 这样的redis兼容数据库，能使用整个硬盘的存储空间
+ - Redis 使用极简，功能丰富，性能强大.   是最有效满足理想后端框架的需求
+ - 存在keydb 这样的redis兼容数据库，使用redis接口，同时保证大容量
 
  ### 为什么redis 未来是更的好选择
  - Nvme 2.0 支持key-value存储。而且价格也不贵。这对redis的持久化有重大助益。  
  - 3D DRAM后续会流行并开始往单颗粒TB演化。内存存储具有长期技术潜力。
 
-
+:::info
 ## Redis选型的最佳实践
+:::
 推荐使用 [Dragonfly](https://github.com/dragonflydb/dragonfly) 和 [KeyDB](https://github.com/Snapchat/KeyDB)  
 这两个数据库都是redis的兼容数据库。
 
@@ -34,3 +37,4 @@ sidebar_position: 1
 
 
 
+> #### [如何配置Dragonfly和KeyDB ... ](/zh/配置Redis/)

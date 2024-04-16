@@ -1,6 +1,6 @@
 ---
 slug: db-setup
-title: 数据库搭建
+title: 1.2 数据库搭建
 type:  docs
 sidebar_position: 2
 ---

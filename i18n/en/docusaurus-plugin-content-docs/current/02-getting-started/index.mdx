@@ -1,0 +1,55 @@
+---
+title: 开始上手
+type:  docs
+sidebar_position: 2
+---
+
+
+### 通过以下两个方式，doptime框架则自动启用
+
+1. **申明和使用doptime的数据对象**
+   
+```go   title="main.go"
+package main
+
+import (
+ "github.com/doptime/doptime/api"
+)
+
+type Demo struct {
+    Foo   string
+}
+var keyDemo = data.NewStruct[string,*Demo]()
+_demo, _ := keyDemo.Get("KQYang")
+
+```
+
+
+2. **申明和使用doptime的函数**  
+        通过api.Api定义doptime函数  
+
+
+```go   title="main.go"
+package main
+
+import (
+	"github.com/doptime/doptime/api"
+)
+
+type InDemo struct {
+	Id   string `msgpack:"alias:JwtId" validate:"required"`
+}
+
+var keyDemo = data.NewStruct[string,*Demo]()
+//define api with input/output data structure
+ApiDemo=api.Api(func(req *InDemo) (ret string, err error) {
+    // your logic here
+    if req.Id == "" {
+        return nil, fmt.Errorf("InvalidInput")
+    }
+    keyInDemo.HSET(req.Id, req)
+    return `{data:"ok"}`, nil
+})
+
+```
+    

@@ -55,12 +55,13 @@ networks:
 </TabItem>
 </Tabs>
 
-## **CONFIG_URL 说明**
+## **说明**
 环境变量中，有且只有一个变量CONFIG_URL。  
 它的值是一个http(s)的url，指向一个toml格式的配置文件。  
 这个配置文件的格式和本地的配置文件的格式一样。  
 
-## **doptime 配置文件的加载顺序**  
+## **其它补充**  
+doptime 加载顺序是:
 1. 加载配置文件config.toml  如果成功
 2. 如果环境变量中有CONFIG_URL，则覆盖配置文件中的CONFIG_URL。
 3. 从CONFIG_URL加载配置, 如果成功，则：

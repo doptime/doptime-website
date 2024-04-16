@@ -1,14 +1,15 @@
 ---
-title: 2.2 用doptime RPC加速开发api
+slug: using-third-party-RPC-to-accelerate-API-development
+title: 用doptime RPC加速开发api
 type:  docs
 sidebar_position: 20
 ---
-## dopTime RPC 设计原则
+## doptime RPC 设计原则
 - 用极小，0.1M，的代码体积，覆盖大部分的后端功能。
 - 成本计价原则。努力使得RPC的成本低于本机运行成本。
-- 模块进化原则。dopTime 反复迭代优化一千种RPC来满足大部分RPC需求。
+<!-- - 模块进化原则。doptime 反复迭代优化一千种RPC来满足大部分RPC需求。 -->
 - 欢迎加入社群，提交接口需求。
-<!-- - 零配置，透明的API交易。dopTime 像股市一样，把API调用价格自动成交在市场供需平衡点。 -->
+<!-- - 零配置，透明的API交易。doptime 像股市一样，把API调用价格自动成交在市场供需平衡点。 -->
 <!-- RPC的逻辑代码，涉及不同的语言，不同的依赖，编译配置等。把它们放到一个项目实际上是不可行的。 -->
 
 

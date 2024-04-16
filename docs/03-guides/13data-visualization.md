@@ -1,6 +1,6 @@
 ---
-slug: /zh/数据的可视化
-title: 1.3 数据的可视化
+slug: data-visualization
+title: 数据的可视化
 type:  docs
 sidebar_position: 3
 ---
@@ -9,9 +9,9 @@ sidebar_position: 3
 ##  使用哪个REDIS可视化工具
 :::
 
-建议使用 RESP 作为redis 可视化工具   [github 下载链接](https://github.com/RedisInsight/RedisDesktopManager)   
-![RESP ](resp.png)
+- 建议使用 RESP 作为redis 可视化工具   [github 下载链接](https://github.com/RedisInsight/RedisDesktopManager)   
 
+ ![RESP](image-2.png)
 - 已知 RESP 连接大数据量的keydb时存在卡顿。
 - 已知 在连接Dragonfly多天时，存在卡顿问题。
 

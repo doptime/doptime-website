@@ -1,5 +1,5 @@
 ---
-slug: /zh/数据访问的安全性
+slug: data-access-security
 title: 1.4 数据访问的安全性
 type:  docs
 sidebar_position: 4

@@ -1,5 +1,5 @@
 ---
-slug: /zh/数据库的迁移扩容
+slug: database-migration-scaling
 title: 1.6 数据库的迁移扩容
 type:  docs
 sidebar_position: 6

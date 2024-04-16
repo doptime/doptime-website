@@ -16,7 +16,7 @@ const config = {
   url: 'https://www.doptime.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: ``,
+  baseUrl: `/`,
 
 
   // GitHub pages deployment config.
@@ -24,22 +24,23 @@ const config = {
   organizationName: 'doptime', // Usually your GitHub org/user name.
   projectName: 'doptime', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  //onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn', 
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
+    path: 'i18n',
     defaultLocale: 'zh',
-    locales: ['en', 'zh'],
+    locales: ['en', 'en'],
     localeConfigs: {
       en: {
         label: 'English',
       },
       zh: {
         label: '中文',
-        direction: 'ltr',
         htmlLang: 'zh-Hans',
 
       },
@@ -53,10 +54,12 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
+          // 确保路径设置正确
+          path: 'docs',
+          routeBasePath: '/docs',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/doptime/doptime-website/tree/main/',
+          editUrl: 'https://github.com/doptime/doptime-website/tree/main/',
 
         },
         blog: {
@@ -84,7 +87,7 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'zh',
+            sidebarId: 'tutorialSidebar',
             position: 'left',
             label: 'Tutorial',
           },

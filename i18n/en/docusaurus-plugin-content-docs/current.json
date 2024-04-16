@@ -1,0 +1,22 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.zh.category.doptime 介绍": {
+    "message": "doptime 介绍",
+    "description": "The label for category doptime 介绍 in sidebar zh"
+  },
+  "sidebar.zh.category.开始上手": {
+    "message": "开始上手",
+    "description": "The label for category 开始上手 in sidebar zh"
+  },
+  "sidebar.zh.category.进阶指南": {
+    "message": "进阶指南",
+    "description": "The label for category 进阶指南 in sidebar zh"
+  },
+  "sidebar.zh.category.进阶指南.link.generated-index.description": {
+    "message": "进阶指南",
+    "description": "The generated-index page description for category 进阶指南 in sidebar zh"
+  }
+}

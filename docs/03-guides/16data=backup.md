@@ -1,6 +1,6 @@
 ---
-slug: /zh/数据库的备份
-title: 1.5 数据库的备份
+slug: data-backup
+title: 数据库的备份
 type:  docs
 sidebar_position: 5
 ---
