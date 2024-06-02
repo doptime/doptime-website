@@ -79,11 +79,11 @@ func main() {
 	
 	timeToRun:=time.Now().Add(time.Second*4)
 	callAtDemoApi(timeToRun ,param)
-	api.CallAtCancel(DemoRpc，timeToRun)
+	api.CallAtCancel(callAtDemoApi，timeToRun)
 	time.Sleep(time.Second*5)
 }
 ```
 ### CallAtCancel 说明
-- 第一个参数是原始的api 或 rpc 函数。
+- 第一个参数是api.CallAt(...) 创建的e函数。
 - 第二个参数是你想要取消的时间。
   时间是唯一的凭据，如果你要取消，就要先记住这个时间。

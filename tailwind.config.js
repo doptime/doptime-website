@@ -7,6 +7,22 @@ module.exports = {
   ],
   theme: {
     extend: {
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            h1: {
+              fontSize: theme('fontSize.2xl'), // specify your size
+              fontWeight: theme('fontWeight.bold'), // specify your weight
+            },
+            h2: {
+              fontSize: theme('fontSize.xl'),
+              fontWeight: theme('fontWeight.bold'),
+            },
+            // Repeat for h3, h4, h5, h6
+          },
+        },
+      }),
+  
 
     },
   },

@@ -10,7 +10,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 const config = {
   title: ' DOPTIME',
   tagline: 'the framework of simple and efficient',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/icon512x512.png',
 
   // Set the production url of your site here
   url: 'https://www.doptime.com',
@@ -34,7 +34,7 @@ const config = {
   i18n: {
     path: 'i18n',
     defaultLocale: 'zh',
-    locales: ['en', 'en'],
+    locales: ['zh', 'en'],
     localeConfigs: {
       en: {
         label: 'English',
@@ -83,7 +83,7 @@ const config = {
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
         title: 'Home',
-        logo: { alt: 'My Site Logo', src: 'img/logo.svg', },
+        logo: { alt: 'My Site Logo', src: 'img/logo.png', },
         items: [
           {
             type: 'docSidebar',
@@ -93,6 +93,9 @@ const config = {
           },
           { to: '/blog', label: 'Blog', position: 'left' },
           { to: '/Test', label: 'Test', position: 'left' },
+          { to: '/ViewLogs', label: 'console', position: 'left' },
+          { to: '/RedisGUI', label: 'RedisGUI', position: 'left' },
+          { to: '/DynamicDev', label: 'DynamicDev', position: 'left' },
           {
             href: 'https://github.com/facebook/docusaurus',
             label: 'GitHub',
