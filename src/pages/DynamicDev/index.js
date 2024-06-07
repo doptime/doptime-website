@@ -28,17 +28,6 @@ const DynDev = () => {
     configure(urlBase, "", (err) => {
     })
     useEffect(() => {
-        // api("getProjectArchitectureInfo", { "ProjectDir": "", "SkipDirs": [".git", ".vscode", ".DS_Store"] },).then((res) => {
-        //     if (typeof res == "object") {
-        //         var BasePath = res.BasePath
-        //         for (var key in res.RelName2Arch) {
-        //             var item = { path: BasePath + key, arch: res.RelName2Arch[key], catalogue: 0 }
-        //             architectureLast[key] = item
-        //         }
-        //         setArchitectInfos({ ...architectureLast })
-        //         setStopAt(stopAtVal.prompt)
-        //     }
-        // })
         api("getProjectArchitectureInfo", { "ProjectDir": "/Users/yang/doptime/doptime", "SkipDirs": [".git", ".vscode", ".DS_Store", "3rd_lang", "test"] },).then((res) => {
             if (typeof res == "object") {
                 var BasePath = res.BasePath
@@ -51,14 +40,25 @@ const DynDev = () => {
             }
         })
 
-        api("getProjectArchitectureInfo", {
-            "ProjectDir": "/Users/yang/doptime/doptime-website", "SkipDirs": [".git", ".DS_Store", ".docusaurus", "i18n", "blog", "src", "static"],
-            "SkipFiles": ["docusaurus.config.js", "package.json", "package-lock.json", "12db-setting-up.md", "tailwind.config.js", "postcss.config.js", "sidebars.js", "babel.config.js"]
-        }).then((res) => {
+        // api("getProjectArchitectureInfo", {
+        //     "ProjectDir": "/Users/yang/doptime/doptime-website", "SkipDirs": [".git", ".DS_Store", ".docusaurus", "i18n", "blog", "src", "static"],
+        //     "SkipFiles": ["docusaurus.config.js", "package.json", "package-lock.json", "12db-setting-up.md", "tailwind.config.js", "postcss.config.js", "sidebars.js", "babel.config.js"]
+        // }).then((res) => {
+        //     if (typeof res == "object") {
+        //         var BasePath = res.BasePath
+        //         for (var key in res.RelName2Arch) {
+        //             var item = { path: BasePath + key, arch: res.RelName2Arch[key], catalogue: 1 }
+        //             architectureLast[key] = item
+        //         }
+        //         setArchitectInfos({ ...architectureLast })
+        //         setStopAt(stopAtVal.prompt)
+        //     }
+        // })
+        api("getProjectArchitectureInfo", { "ProjectDir": "/Users/yang/doptime/doptime-website-api", "SkipDirs": [".git", ".vscode", ".DS_Store"] },).then((res) => {
             if (typeof res == "object") {
                 var BasePath = res.BasePath
                 for (var key in res.RelName2Arch) {
-                    var item = { path: BasePath + key, arch: res.RelName2Arch[key], catalogue: 1 }
+                    var item = { path: BasePath + key, arch: res.RelName2Arch[key], catalogue: 0 }
                     architectureLast[key] = item
                 }
                 setArchitectInfos({ ...architectureLast })
@@ -91,15 +91,19 @@ const DynDev = () => {
         // 2.	代码评审：逐段分析现有代码，找出错误和不合理之处。
         // 3.	模块化改进：逐个模块进行改进，每次只改动一小部分，确保改动可控。
         setPrompt(`you are Context-Object driven document/sourcecode iterator;
-project context & objects are given by concised version of files. there's one focused document at the end of the prompt to iterate;
+project context & objects are given by concised version of files. there's one focused document at the top of the prompt to iterate;
 your Object is to check the focused document and iterately renew the document, keeping global vision of the project & even the world in mind, to minimize the information uncentainty in Information Theory way;
 
 ;That is, you are expected to do following actions:
-1. collect & explain the Core Requirment of current document,  what is user need, what is of vital importance;
-2. point out the errors & unreasonable parts of the focused document, or the neccessity to smooth information by refactor the focused document to make it more understandable & reasonable
-4. iterate the focused document,  with miminal change a to the document to make the change controllable 
-5. after iteration, raise a question , the answer of which could lead to maximize the information gain of the project, or minimize the uncentainty of the project
+1. Collect & re-explain the Core Requirment of current document should be,  what is user need, what is of vital importance;
+2. point out the errors & unreasonable or unnecessary parts of the focused document, or the neccessity to refactor the focused document to make it more understandable & reasonable
+3. iterate the focused document,  with miminal change a to the document to make the change controllable 
+4. after iteration, raise a question , the answer of which could lead to maximize the information gain of the project, or minimize the uncentainty of the project
 ; 
+
+;
+don't change the language of the document.
+;
 output style: 
 <step1>:
 explaination of the core requirment of the document
@@ -107,7 +111,7 @@ explaination of the core requirment of the document
 <step2>:
 errors & unreasonable parts of the document or requrement to refactor the document
 
-<step3>:
+<step3_iteration>:
 new iteration of the document
 
 <step4>:
@@ -124,38 +128,17 @@ remove_file: <filename>
 create_file: <filename>"
 ;
 
-;
-this is a demo document you are expected to receive or response, with meta info given in comments in front part in each document:
-// 
-// Context from the role of  Product Manager :
-// - summarazation of market needs and user needs 
-// - ✅ vision of the product。 with tag ✅ if accepted by human; else ❓
-// ❓assumption meta info, generated by llm, to be accepted or modified by human product manager
-// 
-
-// - object to do
-// -- object description
-
-// Log of Last Iteration output:
-
-
-// - object QA Engineer needs to do
-// -- object description
-// -- object status do do,caceled, dones
-package ...
-;
 
 
 
-`+ concisedVersionOfCodes
-            + FocusedCode)
+` + FocusedCode + concisedVersionOfCodes)
         return () => { };
     }, [selectedFile, sourceCodes])
 
     return (
         // using postcss-nested https://farer.org/2021/10/08/docusaurus-with-tailwindcss/
         <div class="flex flex-row px-1 w-full h-full gap-2" >
-            <div key="PackageView" class="flex-col w-[29%]">
+            <div key="PackageView" class="flex-col w-[29%] h-full">
 
                 <div class="flex-row  text-gray-400 w-full  p-2 gap-1 ">
                     <div class="flex-col w-full">
@@ -170,7 +153,7 @@ package ...
 
 
                 <div class="flex-col  whitespace-nowrap ">Package View</div>
-                <div>
+                <div class="flex flex-col overflow-y-scroll h-[80vh] overflow-scroll ">
                     {
                         Object.keys(architectInfos).map((relapath) => <div class={`flex-row p-1 gap-1 ${selectedFile == relapath ? " bg-blue-200 text-white rounded-xl" : " text-gray-400"} 
                         ${["bg-blue-50", "bg-green-50"][architectInfos[relapath].catalogue]}`}
