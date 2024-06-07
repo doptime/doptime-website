@@ -55,6 +55,6 @@ jobs:
           context: .
           platforms: ${{ vars.PLATFORMS }}
           push: true
-          tags: ${{ secrets.DOCKERHUBNAMESPACE }}/docusaurus-website:latest
+          tags: ${{ secrets.DOCKERHUBNAMESPACE }}/doptime-website:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
