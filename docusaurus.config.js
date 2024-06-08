@@ -25,7 +25,7 @@ const config = {
   projectName: 'doptime', // Usually your repo name.
 
   //onBrokenLinks: 'throw',
-  onBrokenLinks: 'warn', 
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -83,7 +83,7 @@ const config = {
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
         title: 'Home',
-        logo: { alt: 'My Site Logo', src: 'img/logo.png', },
+        logo: { alt: 'Doptime Logo', src: 'img/logo.png', },
         items: [
           {
             type: 'docSidebar',
@@ -91,9 +91,8 @@ const config = {
             position: 'left',
             label: 'Tutorial',
           },
-          { to: '/blog', label: 'Blog', position: 'left' },
-          { to: '/Test', label: 'Test', position: 'left' },
-          { to: '/ViewLogs', label: 'console', position: 'left' },
+          // { to: '/Test', label: 'Test', position: 'left' },
+          // { to: '/ViewLogs', label: 'console', position: 'left' },
           { to: '/RedisGUI', label: 'RedisGUI', position: 'left' },
           { to: '/DynamicDev', label: 'DynamicDev', position: 'left' },
           {
@@ -114,43 +113,26 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Documentation',
                 to: '/docs/intro',
               },
             ],
           },
           {
-            title: 'Community',
+            title: 'github',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'doptime',
+                href: 'https://github.com/doptime/doptime',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'doptime-client',
+                href: 'https://github.com/doptime/doptime-client',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Doptime`,
       },
       prism: {
         theme: prismThemes.github,
