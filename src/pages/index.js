@@ -6,6 +6,7 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 
 import Heading from '@theme/Heading';
 import styles from './index.module.css';
+import { AuthMenu } from '../components/auth';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -22,6 +23,8 @@ function HomepageHeader() {
             to="/docs/introduction">
             Doptime Tutorial - 5min ⏱️
           </Link>
+         
+          
         </div>
       </div>
     </header>
@@ -33,7 +36,7 @@ export default function Home() {
   return (
     <Layout
       title={`Welcome to ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      description="Description will go into a meta tag in <head />">         
       <HomepageHeader />
       <main>
         <HomepageFeatures />
