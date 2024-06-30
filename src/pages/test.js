@@ -1,4 +1,4 @@
-import { api, configure, time, Option } from "doptime-client"
+import { api, time, Option } from "doptime-client"
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -9,9 +9,11 @@ const Test = () => {
     const [apistr, setAPI] = useState("")
     const [text, setText] = useState("text to send to server")
     const [err, setErr] = useState("no error")
-    configure(urlBase,"",(err) => {
-        //show error & body message
-        setErr(err.toString() + " \n " + JSON.stringify(err.response?.data))
+    Option.setDefaults({
+        urlBase: urlBase, primaryErrorHandler: (err) => {
+            //show error & body message
+            setErr(err.toString() + " \n " + JSON.stringify(err.response?.data))
+        }
     })
     useEffect(() => {
         setErr("no error")

@@ -1,4 +1,4 @@
-import { api, configure, time, Option, scan, zRangeByScore, zRevRangeByScore, setDefaultSUToken, lRange, hMGet } from "doptime-client"
+import { api, time, Option, scan, zRangeByScore, zRevRangeByScore, lRange, hMGet } from "doptime-client"
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 const ViewLogs = () => {
@@ -10,9 +10,11 @@ const ViewLogs = () => {
     const [seleceddb, setSelectedDB] = useState("")
     const [logs, setLogs] = useState([])
     const [hashToLogText, setHashToLogText] = useState({})
-    setDefaultSUToken(suToken)
-    configure(urlBase, "", (err) => {
-
+    Option.setDefaults({
+        urlBase: urlBase, sutoken: suToken, primaryErrorHandler: (err) => {
+            //show error & body message
+            setErr(err.toString() + " \n " + JSON.stringify(err.response?.data))
+        }
     })
     useEffect(() => {
         //search keys start with "doptimelog:" in local storage

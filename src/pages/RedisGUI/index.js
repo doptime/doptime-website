@@ -1,4 +1,4 @@
-import { api, configure, time, Option, scan, zRangeByScore, zRevRangeByScore, setDefaultSUToken, lRange, hMGet, rename, type, hKeys, ttl, hGet } from "doptime-client"
+import { api, time, Option, scan } from "doptime-client"
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import KeyViewer from "./keyViewer"
@@ -17,16 +17,16 @@ const RdsGUI = () => {
 
     const [items, setLogs] = useState([])
     const [hashToLogText, setHashToLogText] = useState({})
-    setDefaultSUToken(suToken)
-    configure(urlBase, "", (err) => {
-
+    Option.setDefaults({
+        urlBase: urlBase, sutoken: suToken, primaryErrorHandler: (err) => {
+        }
     })
     useEffect(() => {
         //search keys start with "doptimelog:" in local storage
         scan(0, KeysToQuery, 4096).then((res) => {
             setKeys(res?.keys)
             var defaultKey = res?.keys[0]
-            setSelectedKey(defaultKey)
+            setSelectedKey(defaultKey) 
 
         })
     }, [KeysToQuery])

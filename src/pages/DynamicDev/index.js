@@ -1,4 +1,4 @@
-import { api, configure, time, Option, scan, zRangeByScore, zRevRangeByScore, setDefaultSUToken, lRange, hMGet, rename, type, hKeys, ttl, hGet } from "doptime-client"
+import { api, time, Option, scan, zRangeByScore, zRevRangeByScore,  lRange, hMGet, rename, type, hKeys, ttl, hGet } from "doptime-client"
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Editor, { monaco } from '@monaco-editor/react';
@@ -24,8 +24,9 @@ const DynDev = () => {
     // case file prompt 
     const [stopAt, setStopAt] = useState("")
     const stopAtVal = { file: "file", prompt: "prompt" }
-    setDefaultSUToken(suToken)
-    configure(urlBase, "", (err) => {
+    Option.setDefaults({
+        urlBase: urlBase, sutoken: suToken, primaryErrorHandler: (err) => {
+        }
     })
     useEffect(() => {
         api("getProjectArchitectureInfo", { "ProjectDir": "/Users/yang/doptime/doptime", "SkipDirs": [".git", ".vscode", ".DS_Store", "3rd_lang", "test"] },).then((res) => {

@@ -93,6 +93,7 @@ const config = {
           },
           // { to: '/Test', label: 'Test', position: 'left' },
           // { to: '/ViewLogs', label: 'console', position: 'left' },
+          { to: '/MyProjects', label: 'MyProjects', position: 'left' },
           { to: '/RedisGUI', label: 'RedisGUI', position: 'left' },
           { to: '/DynamicDev', label: 'DynamicDev', position: 'left' },
           {
@@ -104,36 +105,41 @@ const config = {
             type: 'localeDropdown',
             position: 'right',
           },
+          {
+            type: 'custom-item',
+            position: 'right',
+          },
+
         ],
       },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Documentation',
-                to: '/docs/intro',
-              },
-            ],
-          },
-          {
-            title: 'github',
-            items: [
-              {
-                label: 'doptime',
-                href: 'https://github.com/doptime/doptime',
-              },
-              {
-                label: 'doptime-client',
-                href: 'https://github.com/doptime/doptime-client',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} Doptime`,
-      },
+      // footer: {
+      //   style: 'dark',
+      //   links: [
+      //     {
+      //       title: 'Docs',
+      //       items: [
+      //         {
+      //           label: 'Documentation',
+      //           to: '/docs/intro',
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       title: 'github',
+      //       items: [
+      //         {
+      //           label: 'doptime',
+      //           href: 'https://github.com/doptime/doptime',
+      //         },
+      //         {
+      //           label: 'doptime-client',
+      //           href: 'https://github.com/doptime/doptime-client',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      //   copyright: `Copyright © ${new Date().getFullYear()} Doptime`,
+      // },
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
