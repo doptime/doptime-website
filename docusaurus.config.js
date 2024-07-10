@@ -92,9 +92,9 @@ const config = {
             label: 'Docs',
           },
           // { to: '/Test', label: 'Test', position: 'left' },
-          // { to: '/ViewLogs', label: 'console', position: 'left' },
-          { to: '/MyProjects', label: 'MyProjects', position: 'left' },
-          // { to: '/RedisGUI', label: 'RedisGUI', position: 'left' },
+          { to: '/MyProjects', label: '+ Projects', position: 'left' },
+          { to: '/RedisGUI', label: 'Data', position: 'left' },
+          { to: '/ViewLogs', label: 'Analyze', position: 'left' },
           { to: '/DynamicDev', label: 'DynamicDev', position: 'left' },
           {
             href: 'https://github.com/facebook/docusaurus',

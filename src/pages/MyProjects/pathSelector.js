@@ -3,10 +3,10 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { nanoid } from 'nanoid';
-import { hashKey, newApi } from 'doptime-client';
+import { hKey, newApi } from 'doptime-client';
 
 
-export const keySubProjectIterator = new hashKey("SubProjectIterator:@ID", { "CreateAt": 0, "EditAt": 0, "SkipFiles": "", "ID": "", "SkipDirs": "", "RootPath": "" })
+export const keySubProjectIterator = new hKey("SubProjectIterator:@ID", { "CreateAt": 0, "EditAt": 0, "SkipFiles": "", "ID": "", "SkipDirs": "", "RootPath": "" })
 const PathSelector = ({ curProject, unsavedFile, setUnsavedFile, panelStayAt }) => {
 
     useEffect(() => {

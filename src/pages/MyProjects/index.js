@@ -1,4 +1,4 @@
-import { hashKey, newApi } from 'doptime-client';
+import { hKey, newApi } from 'doptime-client';
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import Layout from '@theme/Layout';
 import { Editor } from '@monaco-editor/react';
@@ -10,7 +10,7 @@ import { nanoid } from 'nanoid'
 import PathSelector from './pathSelector';
 
 
-export const keyProjectInfo = new hashKey("ProjectInfo:@ID", { "CreateAt": 0, "EditAt": 0, "ID": "", "Name": "" })
+export const keyProjectInfo = new hKey("ProjectInfo:@ID", { "CreateAt": 0, "EditAt": 0, "ID": "", "Name": "" })
 
 const MyProjectList = ({ doptimeProjects, setDoptimeProjects, curProject, setCurProject }) => {
     const [isEditing, setIsEditing] = useState(false)
@@ -62,9 +62,9 @@ const MyProjectList = ({ doptimeProjects, setDoptimeProjects, curProject, setCur
                     onKeyDown={(e) => { if (e.key === 'Enter') CreateNewProject() }}
                     placeholder='create a new project, enter to finish' className='w-full h-8 border-2 border-gray-300 rounded-lg p-1 my-2' />
             </div>
-            <ul>
+            <ul key={doptimeProjects}>
                 {
-                    Object.keys(doptimeProjects).map((ID, index) => <li key={index} onClick={() => setCurProject(ID)}>
+                    Object.keys(doptimeProjects ?? {}).map((ID, index) => <li key={index} onClick={() => setCurProject(ID)}>
                         <div className='flex flex-row justify-between items-center p-1 border-b-2 border-gray-300 hover:bg-gray-200 cursor-pointer'
                         >
                             <div className='text-3xl mr-1 w-fit'>🗂️</div>

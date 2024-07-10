@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Editor, { monaco } from '@monaco-editor/react';
-import { apiGetDoptimeToml, keyProjectInfo } from "../MyProjects";
+import { apiGetDoptimeToml, keyProjectInfo } from "../../pages/MyProjects";
 
 
 export const SelectProject = ({ curProject, setCurProject }) => {
@@ -10,7 +10,7 @@ export const SelectProject = ({ curProject, setCurProject }) => {
         keyProjectInfo.hGetAll().then((res) => {
             console.log("SelectProjectres", res)
             //if there's only one project, set it as current project
-            if (Object.keys(res).length == 1) {
+            if (Object.keys(res ?? {}).length == 1) {
                 setCurProject(Object.keys(res)[0])
             }
             setProjectList(res)
@@ -21,6 +21,7 @@ export const SelectProject = ({ curProject, setCurProject }) => {
     useEffect(() => {
         apiGetDoptimeToml({ ProjectID: curProject }).then((res) => {
             setProjectToml(res)
+            if (!res) return
 
             //match SUToken = "*" & setSUToken
             var reg = /SUToken = "(.*)"/
@@ -39,17 +40,17 @@ export const SelectProject = ({ curProject, setCurProject }) => {
         <div class="flex-row  text-gray-400 w-full  p-2 gap-1 ">
             <div class="flex-col w-full" key={projectList?.length}>
                 {!!curProject && "Current Project: "}
-                {Object.keys(projectList)?.length > 0 &&
+                {Object.keys(projectList ?? {})?.length > 0 &&
                     <select class="text-xl  text-yellow-600 mb-2 ring-1 w-full p-1" value={curProject} onChange={(e) => setCurProject(e.target.value)}>
                         <option value="">Select a Project to Start</option>
-                        {Object.keys(projectList).map((key) => <option value={key} >{projectList[key]?.Name}</option>)}
+                        {Object.keys(projectList ?? {}).map((key) => <option value={key} >{projectList[key]?.Name}</option>)}
                     </select>
                 }
 
             </div>
             <div class="flex-col w-full">
                 {/* // clicket to create a new project */}
-                {Object.keys(projectList)?.length == 0 && <button class="bg-blue-500 text-white p-1 flex justify-center self-center rounded-lg leading-4 mx-2 " onClick={() => {
+                {Object.keys(projectList ?? {})?.length == 0 && <button class="bg-blue-500 text-white p-1 flex justify-center self-center rounded-lg leading-4 mx-2 " onClick={() => {
                     //redirect to page :/MyProjects
                     window.location.href = "/MyProjects"
                 }}>Create New Project</button>

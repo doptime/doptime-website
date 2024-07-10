@@ -5,7 +5,7 @@ import Editor, { monaco } from '@monaco-editor/react';
 import Layout from "@theme/Layout";
 import { apiGetDoptimeToml, keyProjectInfo } from "../MyProjects";
 import { keySubProjectIterator } from "../MyProjects/pathSelector";
-import { SelectProject } from "./SelectProject";
+import { SelectProject } from "../../components/Project/SelectProject";
 import { FocusedDocWithBackgroundFilesToIterate, SelectRelatedFiles } from "./prompts";
 
 //var apiGetProjectArchitectureInfo = newApi("getProjectArchitectureInfo", { "ProjectDir": "", "SkipFiles": [], "SkipDirs": [] },)
@@ -36,7 +36,7 @@ const DynDev = () => {
 
                 apiGetProjectArchitectureInfo({ "ProjectDir": item.RootPath, "SkipDirs": item.SkipDirs?.split("\n"), "SkipFiles": item.SkipFiles?.split("\n") }).then((res) => {
                     if (typeof res == "object") {
-                        Object.entries(res.RelFile2Arch).forEach(([RelFile, arch]) => architectureLast.push({ AbsPath: res.AbsPath, RelFile: RelFile, arch, catalogue, fullname: res.AbsPath + RelFile }))
+                        Object.entries(res?.RelFile2Arch ?? {}).forEach(([RelFile, arch]) => architectureLast.push({ AbsPath: res.AbsPath, RelFile: RelFile, arch, catalogue, fullname: res.AbsPath + RelFile }))
                         setArchitectInfos([...architectureLast])
                         //console.log("architectInfos", architectureLast)
                         setStopAt(stopAtVal.file)

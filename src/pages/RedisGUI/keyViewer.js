@@ -1,8 +1,8 @@
-import { api,  time, Option, scan, zRangeByScore, zRevRangeByScore,  lRange, hMGet, rename, type, hKeys, ttl, hGet, get, xRange, hLen, lLen, xLen, hScan, sScan, zRange, msgpackDecode, xRangeN } from "doptime-client"
+import { type, hKey, lKey, setKey, xKey, strKey, zKey } from "doptime-client"
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import KeyViewerBasicInfo from "./keyViewerBasicInfo"
-var msgpack = require('@ygoe/msgpack');
+var _ = require('lodash');
 
 const KeyViewer = ({ selectedKey, setSelectedKey }) => {
     const pageItemCnt = 20
@@ -25,17 +25,18 @@ const KeyViewer = ({ selectedKey, setSelectedKey }) => {
 
     //step 1: get key type
     useEffect(() => {
+        if (!selectedKey) return
         type(selectedKey).then(setKeyType)
     }, [selectedKey])
 
     // step 2: get key length
     useEffect(() => {
         if (!keyType || !selectedKey) return
-        if (keyType === "hash") hLen(selectedKey).then(setFieldLength)
-        else if (keyType === "list") lLen(selectedKey).then(setFieldLength)
-        else if (keyType === "set") sCard(selectedKey).then(setFieldLength)
-        else if (keyType === "zset") zCard(selectedKey).then(setFieldLength)
-        else if (keyType === "stream") xLen(selectedKey).then(setFieldLength)
+        if (keyType === "hash") new hKey(selectedKey).hLen().then(setFieldLength)
+        else if (keyType === "list") new lKey(selectedKey).lLen().then(setFieldLength)
+        else if (keyType === "set") new setKey(selectedKey).sCard().then(setFieldLength)
+        else if (keyType === "zset") new zKey(selectedKey).zCard().then(setFieldLength)
+        else if (keyType === "stream") new xKey(selectedKey).xLen().then(setFieldLength)
         else if (keyType === "string") setFieldLength(1)
     }, [selectedKey, keyType])
 
@@ -48,32 +49,22 @@ const KeyViewer = ({ selectedKey, setSelectedKey }) => {
         }
 
         //get items
-        if (keyType === "hash") hScan(selectedKey, selectedInd, "*", pageItemCnt).then((res) => {
-            //res = msgpackDecode(res)
-            console.log("hScan res", res)
-            var keys = res["keys"], cursor = res["cursor"]
-            var res1 = []
-            for (var i = 0; i < keys.length; i += 2) {
-                var val = msgpack.decode(keys[i + 1])
-                res1.push([keys[i], val])
-            }
-            setShownFieldValues(res1)
-        })
-        else if (keyType === "list") lRange(selectedKey, selectedInd, selectedInd + pageItemCnt).then(MoveToStartPage)
-        else if (keyType === "set") sScan(selectedKey, selectedInd, "*", pageItemCnt).then(res => {
+        if (keyType === "hash") new hKey(selectedKey).hScan(selectedInd, "*", pageItemCnt).then((res) => setShownFieldValues(_.zip(res["keys"], res["values"])))
+        else if (keyType === "list") new lKey(selectedKey).lRange(selectedInd, selectedInd + pageItemCnt).then(MoveToStartPage)
+        else if (keyType === "set") new setKey(selectedKey).sScan(selectedInd, "*", pageItemCnt).then(res => {
             var keys = res["keys"], cursor = res["cursor"]
             var res = []
             for (var i = 0; i < keys.length; i++) res.push([keys[i]])
             MoveToStartPage(res)
         })
-        else if (keyType === "zset") zRange(selectedKey, selectedInd, selectedInd + pageItemCnt, true).then(res => {
+        else if (keyType === "zset") new zKey(selectedKey).zRange(selectedInd, selectedInd + pageItemCnt, true).then(res => {
             var members = res["members"], scores = res["scores"]
             var res = []
             for (var i = 0; i < members.length; i++) res.push([members[i], scores[i]])
             MoveToStartPage(res)
         })
-        else if (keyType === "string") get(selectedKey).then(res => MoveToStartPage([[selectedKey, res]]))
-        else if (keyType == "stream") xRangeN(selectedKey, "-", "+", pageItemCnt).then(res => {
+        else if (keyType === "string") new strKey(selectedKey).get().then(res => MoveToStartPage([[selectedKey, res]]))
+        else if (keyType == "stream") new xKey(selectedKey).xRangeN("-", "+", pageItemCnt).then(res => {
             console.log("xRangeN", res)
             var members = []
             for (var i = 0; i < res.length; i++) members.push([res[i]?.ID, res[i]?.Values])
