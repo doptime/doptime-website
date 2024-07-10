@@ -7,9 +7,10 @@ import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the 
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
 import { h64 } from 'xxhashjs';
 import { nanoid } from 'nanoid'
+import PathSelector from './pathSelector';
 
 
-var keyProjectInfo = new hashKey("ProjectInfo:@ID", { "CreateAt": 0, "EditAt": 0, "ID": "", "Name": "" })
+export const keyProjectInfo = new hashKey("ProjectInfo:@ID", { "CreateAt": 0, "EditAt": 0, "ID": "", "Name": "" })
 
 const MyProjectList = ({ doptimeProjects, setDoptimeProjects, curProject, setCurProject }) => {
     const [isEditing, setIsEditing] = useState(false)
@@ -105,7 +106,7 @@ const MyProjectList = ({ doptimeProjects, setDoptimeProjects, curProject, setCur
         </div>
     )
 }
-var apiGetDoptimeToml = newApi("GetProjectToml", { ProjectID: "" })
+export const apiGetDoptimeToml = newApi("GetProjectToml", { ProjectID: "" })
 var apiSetDoptimeToml = newApi("SetProjectToml", { ProjectID: "", ProjectToml: "" })
 const ConfigureTomlEditor = ({ curProject, unsavedFile, setUnsavedFile, panelStayAt }) => {
     const [toml, setToml] = useState(null)
@@ -146,91 +147,6 @@ const ConfigureTomlEditor = ({ curProject, unsavedFile, setUnsavedFile, panelSta
 
     />
 }
-var keySubProjectIterator = new hashKey("SubProjectIterator:@ID", { "CreateAt": 0, "EditAt": 0, "FilesIgnored": "", "ID": "", "PathsIgnored": "", "RootPath": "" })
-const PathSelector = ({ curProject, unsavedFile, setUnsavedFile, panelStayAt }) => {
-
-    useEffect(() => {
-        if (!curProject) return
-        keySubProjectIterator.hScan(0, `${curProject}*`, 2048).then((res) => setRowData(res?.values ?? []))
-    }, [curProject])
-    // Row Data: The data to be displayed.
-    const [rowData, setRowData] = useState([]);
-    if (!Array.isArray(rowData)) {
-        setRowData([]);
-    }
-
-    const deleteSelectedRows = (props) => {
-        const newRowData = rowData.filter(row => row.ID !== props.data.ID);
-        setRowData(newRowData);
-        keySubProjectIterator.hDel(props.data.ID)
-    };
-
-    const ActionCellRenderer = (props) => {
-        return (
-            <div className='flex flex-col justify-center h-full'>
-                <button className='bg-blue-500 text-white p-1 rounded-lg cursor-pointer hover:bg-red-600 px-2'
-                    onClick={() => deleteSelectedRows(props)}>Del</button>
-            </div>
-        );
-    };
-
-    // Column Definitions: Defines the columns to be displayed.
-    const [colDefs, setColDefs] = useState([
-        { field: "RootPath", cellRenderer: 'actionCellRenderer', editable: true, maxWidth: 150 },
-        { field: "PathsIgnored", editable: true, cellEditor: 'agLargeTextCellEditor' },
-        { field: "FilesIgnored", editable: true, cellEditor: 'agLargeTextCellEditor' },
-        {
-            field: "CreateAt", valueFormatter: p => {
-                return new Date(p.data.CreateAt).toLocaleString().split(",")[0]
-            }, width: 120, maxWidth: 200
-        },
-        { field: "Action", cellRenderer: ActionCellRenderer, maxWidth: 80 },
-    ]);
-    let gridApi;
-
-
-    //https://github.com/ag-grid/ag-grid?tab=readme-ov-file
-    //https://www.ag-grid.com/react-data-grid/getting-started/?utm_source=ag-grid-readme&utm_medium=repository&utm_campaign=github
-    return (
-        <div
-            className="ag-theme-quartz" // applying the grid theme
-            style={{ height: 500 }} // the grid will fill the size of the parent container
-        >
-            <div className='flex flex-row justify-end items-center gap-2 p-1 rounded-lg cursor-pointer hover:bg-gray-300 w-full'
-                onClick={() => {
-                    var newRowData = [{ ID: `${curProject}_${nanoid(7)}`, CreateAt: new Date().getTime(), RootPath: "", FilesIgnored: "", PathsIgnored: "" }, ...rowData]
-                    setRowData(newRowData)
-                }}            >
-                <div className='bg-blue-500 text-white p-1 rounded-lg cursor-pointer hover:bg-red-600 px-2'>
-                    Add a new sub project
-                </div>
-            </div>
-            {/* //when clicked on each filed,  it will be editable in multiple lines */}
-            <AgGridReact key={rowData}
-                // rowSelection="multiple"
-                rowData={rowData}
-                columnDefs={colDefs}
-                onGridReady={(params) => {
-                    gridApi = params.api;
-                    params.api.sizeColumnsToFit();
-                }}
-                rowModelType='clientSide'
-                rowHeight={"auto"}
-                onCellEditingStopped={(event) => {
-                    var data = {
-                        "CreateAt": event.data.CreateAt,
-                        "RootPath": event.data.RootPath,
-                        "PathsIgnored": event.data.PathsIgnored,
-                        "FilesIgnored": event.data.FilesIgnored,
-                        "EditAt": new Date().getTime(),
-                        "ID": event.data.ID
-                    }
-                    keySubProjectIterator.hSet(data.ID, data)
-                }}
-            />
-        </div >
-    );
-}
 const MyProjects = () => {
     const [curProject, setCurProject] = useState("")
     const [unsavedFile, setUnsavedFile] = useState({})
@@ -244,11 +160,11 @@ const MyProjects = () => {
 
             <div className='flex flex-col h-full w-[70%]'>
                 <div className='flex flex-row text-xl gap-2 bg-gray-100 p-1'>
-                    <div className={`${panelStayAt === "tomlfile" ? " bg-blue-300" : "bg-gray-300"} w-fit rounded-lg px-1`} onClick={() => setPanelStayAt("tomlfile")}                    >
-                        My Toml Editor {!!unsavedFile[curProject] && " ⚪"}
+                    <div className={`${panelStayAt === "tomlfile" ? " bg-blue-300" : "bg-gray-300"} w-fit rounded-lg px-4`} onClick={() => setPanelStayAt("tomlfile")}                    >
+                        Toml Editor {!!unsavedFile[curProject] && " ⚪"}
                     </div>
-                    <div className={`${panelStayAt === "ProjectPathInfo" ? " bg-blue-300" : "bg-gray-300"} w-fit rounded-lg px-1`} onClick={() => setPanelStayAt("ProjectPathInfo")}                    >
-                        Add Project Info
+                    <div className={`${panelStayAt === "ProjectPathInfo" ? " bg-blue-300" : "bg-gray-300"} w-fit rounded-lg px-4`} onClick={() => setPanelStayAt("ProjectPathInfo")}                    >
+                        Sub Projects
                     </div>
                 </div>
                 {panelStayAt === "tomlfile" && <ConfigureTomlEditor curProject={curProject} unsavedFile={unsavedFile} setUnsavedFile={setUnsavedFile} panelStayAt={panelStayAt} />}

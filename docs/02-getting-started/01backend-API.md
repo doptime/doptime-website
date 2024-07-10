@@ -4,6 +4,7 @@ title: 后端 - 使用API
 type: docs
 sidebar_position: 1
 ---
+instruction: doptime 项目中的api 接口参数已经发生了变化，现在需要根据相关的文档重新定义api接口文档。
 
 :::tip 申明api
 ## **通过api.Api定义doptime函数**
